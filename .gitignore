@@ -1,1 +1,19 @@
+# Credentials
 .env
+
+# Transfer logs (contain account info — exclude by default)
+transfer_log_*.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# uv
+.venv/
+.python-version
+
+# OS
+.DS_Store
+Thumbs.db
