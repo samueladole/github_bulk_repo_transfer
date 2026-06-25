@@ -28,15 +28,36 @@ pip install requests
 
 ---
 
+## Setup — .env file (recommended)
+
+Create a `.env` file in the same directory as the script to avoid typing credentials every run:
+
+```ini
+SOURCE_GITHUB_USER=old-account
+SOURCE_GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxx
+DEST_GITHUB_USER=new-account
+DEST_GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxx
+```
+
+The script loads this file automatically on startup. Any value already set in your shell environment takes precedence over the `.env` file. Values not found in either place will be prompted for interactively.
+
+> **Important:** Add `.env` to your `.gitignore` so you never accidentally commit tokens.
+>
+> ```
+> echo ".env" >> .gitignore
+> ```
+
+---
+
 ## Setup — Personal Access Tokens
 
 You need a **Classic PAT** for each account. Create them at:  
 👉 https://github.com/settings/tokens → *Generate new token (classic)*
 
-| Account | Required scopes |
-|---|---|
-| Source (original owner) | `repo` |
-| Destination (new owner) | `repo` |
+| Account | .env key | Required scopes |
+|---|---|---|
+| Source (original owner) | `SOURCE_GITHUB_TOKEN` | `repo` |
+| Destination (new owner) | `DEST_GITHUB_TOKEN` | `repo` |
 
 > **Never share or commit your tokens.** The script only holds them in memory and never writes them to the log file.
 
