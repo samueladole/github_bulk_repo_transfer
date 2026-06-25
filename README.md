@@ -19,11 +19,29 @@ Automates moving every repository from one GitHub account to another — with fu
 
 ## Requirements
 
-- Python 3.10+
-- `requests` library
+- [uv](https://docs.astral.sh/uv/) (Python package manager)
+- Python 3.10+ (managed automatically by uv)
+
+### Install uv
 
 ```bash
-pip install requests
+# macOS / Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Windows
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+### Install dependencies
+
+```bash
+uv sync
+```
+
+If there is no `pyproject.toml` yet, you can add `requests` directly:
+
+```bash
+uv add requests
 ```
 
 ---
@@ -68,7 +86,7 @@ You need a **Classic PAT** for each account. Create them at:
 ### 1. Transfer all repos
 
 ```bash
-python transfer_github_repos.py
+uv run transfer_github_repos.py
 ```
 
 You'll be prompted for both usernames and tokens. The script will:
@@ -86,7 +104,7 @@ A log file is created automatically, e.g. `transfer_log_20240625_143022.json`. *
 ### 2. Roll back (undo all transfers)
 
 ```bash
-python transfer_github_repos.py --rollback transfer_log_20240625_143022.json
+uv run transfer_github_repos.py --rollback transfer_log_20240625_143022.json
 ```
 
 Reads the log file and transfers every successfully moved repo **back** to the original account. You'll be prompted for both tokens again and asked to confirm before anything happens.
@@ -94,7 +112,7 @@ Reads the log file and transfers every successfully moved repo **back** to the o
 If you run `--rollback` without a filename, you'll be prompted to enter the path:
 
 ```bash
-python transfer_github_repos.py --rollback
+uv run transfer_github_repos.py --rollback
 ```
 
 ---
@@ -102,7 +120,7 @@ python transfer_github_repos.py --rollback
 ### 3. Resume an interrupted transfer
 
 ```bash
-python transfer_github_repos.py --resume transfer_log_20240625_143022.json
+uv run transfer_github_repos.py --resume transfer_log_20240625_143022.json
 ```
 
 Skips any repos already recorded as transferred in the log and continues with the rest. Useful if the script crashed, you hit Ctrl+C, or you lost your network connection mid-run.
@@ -167,7 +185,7 @@ GitHub enforces a short cooldown between transfers of the same repository. If yo
 ## Example walkthrough
 
 ```
-$ python transfer_github_repos.py
+$ uv run transfer_github_repos.py
 
 ═══════════════════════════════════════════════════════
    GitHub Bulk Repository Transfer  (with rollback)
@@ -193,7 +211,7 @@ Found 3 repo(s) total, 3 to transfer:
   • scripts  [public]
 
 ⚠  Transfers from @old-account → @new-account can be ROLLED BACK by running:
-   python transfer_github_repos.py --rollback transfer_log_20240625_143022.json
+   uv run transfer_github_repos.py --rollback transfer_log_20240625_143022.json
 
 Type  YES  to proceed: YES
 
@@ -210,7 +228,7 @@ Summary
 ✔  Transferred : 3/3
 
 Log saved: transfer_log_20240625_143022.json
-To undo everything: python transfer_github_repos.py --rollback transfer_log_20240625_143022.json
+To undo everything: uv run transfer_github_repos.py --rollback transfer_log_20240625_143022.json
 ```
 
 ---
