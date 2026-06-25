@@ -1,0 +1,9 @@
+[project]
+name = "github_bulk_repo_transfer"
+version = "0.1.0"
+description = "Automates moving every repository from one GitHub account to another "
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "requests>=2.34.2",
+]
