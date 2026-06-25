@@ -5,5 +5,6 @@ description = "Automates moving every repository from one GitHub account to anot
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "python-dotenv>=1.2.2",
     "requests>=2.34.2",
 ]
